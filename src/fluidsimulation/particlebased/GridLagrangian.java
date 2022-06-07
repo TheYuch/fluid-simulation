@@ -15,7 +15,7 @@ public class GridLagrangian extends FluidSimulation
 {
 	
 	//solver parameters
-	//private static Vector2 G = new Vector2(0f, 12000 * 9.8f);	//external forces (gravity)
+	private static Vector2 G = new Vector2(0f, 12000 * 9.8f);	//external forces (gravity)
 	private static float REST_DENS = 1000f;
 	private static float GAS_CONST = 2000f;
 	private static float H = 8f;
@@ -228,8 +228,8 @@ public class GridLagrangian extends FluidSimulation
 					}
 				}
 			}
-			//Vector2 fGrav = G.scale(pI.rho);
-			pI.f.set(fPress.plus(fVisc));//.plus(fGrav));
+			Vector2 fGrav = G.scale(pI.rho);
+			pI.f.set(fPress.plus(fVisc).plus(fGrav));
 		}			
 	}
 

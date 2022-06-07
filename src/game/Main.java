@@ -1,32 +1,25 @@
 package game;
 
-import fluidsimulation.FluidSimulation;
-import fluidsimulation.gridbased.*;
-import fluidsimulation.particlebased.*;
-
-/*import java.awt.Dimension;
+import java.awt.Dimension;
 import java.awt.Point;
-
-import javax.swing.JFrame;*/
+import javax.swing.JFrame;
 
 public class Main
 {
 
-	//private static GameState state = new GameState();
-	private static FluidSimulation simulation;
+	private static GameState state = new GameState();
 
-	public static final int SQRT_PARTICLES_AMOUNT = 112;
+	public static final int SQRT_PARTICLES_AMOUNT = 64;
 	public static final int PARTICLES_AMOUNT = SQRT_PARTICLES_AMOUNT * SQRT_PARTICLES_AMOUNT;
-	private static final int TRIAL_FRAMES = 20;
 
 	public static final int WIN_WIDTH = 512;
 	public static final int WIN_HEIGHT = 512;
 
-	/*public static final Point MOUSE_OFFSET = new Point(0, -28);
-	private static final Point WIN_SIZE_OFFSET = new Point(0, 28);*/
+	public static final Point MOUSE_OFFSET = new Point(0, -28);
+	private static final Point WIN_SIZE_OFFSET = new Point(0, 28);
 	
-	public static void main(String args[]) {// throws InterruptedException {
-		// Eulerian, QuadtreeEulerian, Lagrangian, GridLagrangian
+	public static void main(String args[]) throws InterruptedException {
+		/*// Eulerian, QuadtreeEulerian, Lagrangian, GridLagrangian // TODO: replace this code with new GUI code for runtime performance analysis
 		simulation = new Lagrangian(Main.SQRT_PARTICLES_AMOUNT, Main.PARTICLES_AMOUNT);
 
 		double average = 0;
@@ -40,9 +33,9 @@ public class Main
 			System.out.println("Frame " + (i + 1) + ": " + elapsedTime);
 		}
 		average /= TRIAL_FRAMES;
-		System.out.println("Average: " + average);
+		System.out.println("Average: " + average);*/
 
-		/*JFrame frame = new JFrame("Fluid Simulation");
+		JFrame frame = new JFrame("Fluid Simulation");
 		frame.addMouseListener(state);
 		frame.addMouseMotionListener(state);
 
@@ -68,8 +61,7 @@ public class Main
 
 			long dt = Math.max(0, 1000 / 30 - elapsedTime);
 			Thread.sleep(dt);
-			// Thread.sleep(500);
-		}*/
+		}
 	}
 	
 }

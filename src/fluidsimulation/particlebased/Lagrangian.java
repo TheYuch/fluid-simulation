@@ -14,7 +14,7 @@ public class Lagrangian extends FluidSimulation
 {
 	
 	//solver parameters
-	//private static Vector2 G = new Vector2(0f, 12000 * 9.8f);	//external forces (gravity)
+	private static Vector2 G = new Vector2(0f, 12000 * 9.8f);	//external forces (gravity)
 	private static float REST_DENS = 1000f;						//rest density
 	//TODO: (below) ideal gas law only poorly enforces incompressibility
 	private static float GAS_CONST = 2000f;						//constant for equation of state
@@ -67,6 +67,25 @@ public class Lagrangian extends FluidSimulation
 	{
 		particles.add(new Particle(posX, posY, vX, vY));
 	}
+
+	private void fillRandom(int count) // TODO: make abstract, add as GUI feature
+	{
+		rand = new Random();
+		for (int i = 0; i < count; i++)
+		{
+			addParticle(rand.nextInt(Main.WIN_WIDTH), rand.nextInt(Main.WIN_HEIGHT), (rand.nextFloat() - 0.5f) * 2f * 10f, (rand.nextFloat() - 0.5f) * 2f * 10f);
+		}
+	}
+
+	private void spawnColumn(int posX, int posY, int count, int horizontalCount) // TODO: make abstract, add as GUI feature
+	{
+		rand = new Random();
+		int i = 0;
+		while (i++ < count)
+		{
+			addParticle(posX + (i % horizontalCount) * PARTICLE_DIAMETER, posY + (int)(i / horizontalCount) * PARTICLE_DIAMETER, (rand.nextFloat() - 0.5f) * 10f, -rand.nextFloat() * 10f);
+		}
+	}
 	
 	@Override
 	protected void init(int sqrtParticlesAmount, int particlesAmount)
@@ -85,12 +104,8 @@ public class Lagrangian extends FluidSimulation
 		
 		particles = new ArrayList<Particle>();
 		
-		//filling screen with random fluid
-		rand = new Random();
-		for (int i = 0; i < particlesAmount; i++)
-		{
-			addParticle(rand.nextInt(Main.WIN_WIDTH), rand.nextInt(Main.WIN_HEIGHT), (rand.nextFloat() - 0.5f) * 2f * 10f, (rand.nextFloat() - 0.5f) * 2f * 10f);
-		}
+		//spawnRandom(particlesAmount) TODO: add as GUI option
+		spawnColumn(Main.WIN_WIDTH / 2, 100, particlesAmount, 10);
 	}
 	
 	public Lagrangian(int sqrtParticlesAmount, int particles)
@@ -178,8 +193,8 @@ public class Lagrangian extends FluidSimulation
 					//pJ.rho * VISC_LAP * (H - r);
 				}
 			}
-			//Vector2 fGrav = G.scale(pI.rho);
-			pI.f.set(fPress.plus(fVisc)); //.plus(fGrav));
+			Vector2 fGrav = G.scale(pI.rho);
+			pI.f.set(fPress.plus(fVisc).plus(fGrav));
 		}			
 	}
 

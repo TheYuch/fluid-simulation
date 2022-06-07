@@ -1,4 +1,3 @@
-/*
 package game;
 
 import fluidsimulation.FluidSimulation;
@@ -22,8 +21,8 @@ public class GameState extends MouseAdapter implements MouseMotionListener
 	
 	public GameState()
 	{
-		// Eulerian, QuadtreeEulerian, Lagrangian, GridLagrangian
-		simulation = new Eulerian(Main.SQRT_PARTICLES_AMOUNT, Main.PARTICLES_AMOUNT);
+		// Eulerian, QuadtreeEulerian, Lagrangian, GridLagrangian TODO: control type with GUI
+		simulation = new QuadtreeEulerian(Main.SQRT_PARTICLES_AMOUNT, Main.PARTICLES_AMOUNT);
 		
 		mouseX = new ArrayList<>();
 		mouseY = new ArrayList<>();
@@ -60,4 +59,4 @@ public class GameState extends MouseAdapter implements MouseMotionListener
 	@Override
 	public void mouseMoved(MouseEvent e) {}
 	
-}*/
+}

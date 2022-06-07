@@ -40,6 +40,28 @@ public class Eulerian extends FluidSimulation {
         this.Vy[idx] += amountY;
     }
 
+    private void fillRectangle(int posX, int posY, int width, int height) // TODO: make abstract, add as GUI feature
+    {
+        for (int y = posY; y < posY + height; y++)
+        {
+            for (int x = posX; y < posX + width; x++)
+            {
+                addDensity(x, y, rand.nextFloat() * 10f + 100f);
+                addVelocity(x, y, (rand.nextFloat() - 0.5f) * 2f * 10f, (rand.nextFloat() - 0.5f) * 2f * 10f);
+            }
+        }
+    }
+
+    private void fillRandom() // TODO: make abstract, add as GUI feature
+    {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                addDensity(j, i, rand.nextFloat() * 200f);
+                addVelocity(j, i, (rand.nextFloat() - 0.5f) * 2f * 10f, (rand.nextFloat() - 0.5f) * 2f * 10f);
+            }
+        }
+    }
+
     @Override
     protected void init(int sqrtParticlesAmount, int particlesAmount) {
         Eulerian.N = sqrtParticlesAmount;
@@ -55,28 +77,20 @@ public class Eulerian extends FluidSimulation {
         this.Vx0 = new float[N * N];
         this.Vy0 = new float[N * N];
 
-        // two fluid bodies colliding
         rand = new Random();
-        /*for (int i = 0; i < N / 4; i++) {
-            for (int j = 0; j < N / 4; j++) {
-                addDensity(j, i, rand.nextFloat() * 100f + 100f);
-                addVelocity(j, i, rand.nextFloat() * 5f, rand.nextFloat() * 5f);
+        // two fluid bodies colliding
+        /*for (int i = 0; i < N / 5; i++) {
+            for (int j = 0; j < N / 5; j++) {
+                addDensity(j, i, (rand.nextFloat() * 100f));
+                addVelocity(j, i, rand.nextFloat() * 3f + 2f, rand.nextFloat() * 3f + 2f);
             }
         }
         for (int i = 3 * N / 4; i < N; i++) {
             for (int j = 3 * N / 4; j < N; j++) {
-                addDensity(j, i, rand.nextFloat() * 50f + 50f);
-                addVelocity(j, i, rand.nextFloat() * -8f, rand.nextFloat() * -8f);
+                addDensity(j, i, rand.nextFloat() * 50f);
+                addVelocity(j, i, rand.nextFloat() * -2f - 1f, rand.nextFloat() * -2f - 1f);
             }
         }*/
-
-        // filling screen with random fluid
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                addDensity(j, i, rand.nextFloat() * 200f);
-                addVelocity(j, i, (rand.nextFloat() - 0.5f) * 2f * 10f, (rand.nextFloat() - 0.5f) * 2f * 10f);
-            }
-        }
     }
 
     public Eulerian(int sqrtParticlesAmount, int particlesAmount) {
@@ -85,6 +99,16 @@ public class Eulerian extends FluidSimulation {
 
     @Override
     public void update() {
+        /*// TMP CONSTANT FLUID, TODO: make abstract, add as GUI feature
+        int x1 = (int)(N * 0.4f);
+        int y1 = (int)(N * 0.4f);
+        int x2 = (int)(N * 0.6f);
+        int y2 = (int)(N * 0.6f);
+        addDensity(x1, y1, rand.nextFloat() * 200f + 800f);
+        addVelocity(x1, y1, rand.nextFloat() * 0.5f + 1f, rand.nextFloat() * 0.5f + 1f);
+        addDensity(x2, y2, rand.nextFloat() * 200f + 650f);
+        addVelocity(x2, y2, rand.nextFloat() * -2f - 1f, rand.nextFloat() * -2f - 1f);*/
+
         // velocity step
         diffuse(1, Vx0, Vx, VISC, DT); // diffuse velocities
         diffuse(2, Vy0, Vy, VISC, DT);
